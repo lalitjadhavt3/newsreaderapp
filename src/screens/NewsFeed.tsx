@@ -172,8 +172,8 @@ const NewsFeed: React.FC = () => {
           color="#FF8C32"
           style={styles.loadingIndicator}
         />
-      ) : (
-        <View>
+      ) : 
+        !isOffline &&( <View>
           <Text style={styles.header}>Select News Source</Text>
           <ScrollView
             horizontal
@@ -192,8 +192,8 @@ const NewsFeed: React.FC = () => {
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
-        </View>
-      )}
+        </View>)}
+      
     </View>
   );
 };
