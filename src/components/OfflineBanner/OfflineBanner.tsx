@@ -25,16 +25,10 @@ export const OfflineBanner: React.FC = () => {
 
   return (
     <>
-      {isOffline ? (
+      {isOffline ?? (
         <View style={styles.offlineBanner}>
           <Text style={styles.offlineText}>You are offline. Some features may be unavailable.</Text>
         </View>
-      ) : (
-        showRestoredMessage && (
-          <Animated.View style={[styles.restoredBanner, { opacity: fadeAnim }]}>
-            <Text style={styles.restoredText}>Your connection has been restored.</Text>
-          </Animated.View>
-        )
       )}
     </>
   );

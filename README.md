@@ -1,15 +1,43 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# News Reader Application
 
-# Getting Started
+This is a React Native News Reader Application that fetches and displays news articles from an API. It supports features like bookmarking articles, offline mode for cached news, and category-based browsing.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## Features:
+- Fetch and display latest news.
+- Bookmark articles for offline reading.
+- Offline mode with cached news support.
+- Categories for organized browsing.
+- Seamless transitions with navigation and offline banners.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+---
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Table of Contents:
+1. [Setup Instructions](#setup-instructions)
+2. [API Configuration Steps](#api-configuration-steps)
+3. [Key Implementation Notes](#key-implementation-notes)
+4. [Screenshots](#screenshots) (Optional)
+5. [License](#license)
 
+---
+
+## Setup Instructions
+
+### Prerequisites:
+1. Node.js (>= 16.x) and npm/yarn installed.
+2. React Native development environment set up. Follow the React Native Getting Started Guide (https://reactnative.dev/docs/environment-setup).
+3. Android Studio and/or Xcode (for iOS development).
+
+### Installation:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/lalitjadhavt3/newsreaderapp.git -- cloning repo
+   cd newsreaderapp --go to app folder
+   npm i --install dependencies
+
+
+After successfull installation
 ```bash
 # using npm
 npm start
@@ -46,34 +74,51 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
 
-Now that you have successfully run the app, let's modify it.
+## Folder Structure
+```
+src/
+├── components/          # Reusable components
+├── context/             # Offline context
+├── navigations/         # Navigation configuration
+├── screens/             # Individual screens
+├── services/            # API integration and helpers
+├── utils/               # Utility functions
+└── types/               # TypeScript type definitions
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+```
+### API Configuration Steps
+Obtain an API key:
+This app uses a mediastack API. Register and obtain your API key from (https://mediastack.com/) or the respective provider.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
 
-## Congratulations! :tada:
 
-You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
+Use constants in your API utility:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+``` import { API_BASE_URL, API_KEY } from 'constant/constants'; ```
 
-# Troubleshooting
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Key Implementation Notes
 
-# Learn More
+Navigation:
+- Utilizes react-navigation with:
+  - Bottom Tab Navigation for main sections (Home, Categories, Bookmark).
+  - Stack Navigation for screen-specific flows like category news and detailed news views.
 
-To learn more about React Native, take a look at the following resources:
+Offline Support:
+- Integrated @react-native-community/netinfo to detect network status.
+- Cached news stored using AsyncStorage for offline reading.
+- Displays banners for offline states.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Bookmarking:
+- Bookmarked news stored in AsyncStorage.
+- Bookmark button toggles state and updates the local storage.
+
+State Management:
+- Context API used for managing the global offline state.
+- Local component states handle individual screen interactions.
+
+Performance Enhancements:
+- Efficient image loading with react-native-fast-image.
+- Lazy loading of components and screens.

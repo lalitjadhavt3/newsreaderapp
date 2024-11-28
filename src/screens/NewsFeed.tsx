@@ -145,10 +145,9 @@ const NewsFeed: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {isOffline ? (
+      {isOffline && (
         <>
           <OfflineBanner />
-          {/** Check if data is loaded in localstorage then load news contents offline */}
           {news?.length > 0 ? (
             <FlatList
               data={news}
@@ -164,16 +163,17 @@ const NewsFeed: React.FC = () => {
                 There are no contents to display
               </Text>
             </View>
-          )}{' '}
+          )}
         </>
-      ) : loading ? (
+      )}
+      {loading ? (
         <ActivityIndicator
           size="large"
           color="#FF8C32"
           style={styles.loadingIndicator}
         />
       ) : (
-        <>
+        <View>
           <Text style={styles.header}>Select News Source</Text>
           <ScrollView
             horizontal
@@ -192,7 +192,7 @@ const NewsFeed: React.FC = () => {
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
-        </>
+        </View>
       )}
     </View>
   );
