@@ -49,7 +49,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ route, navigation }) => {
         setBookmarked(true);
       }
     } catch (error) {
-      console.error("Error handling bookmark:", error);
+      Alert.prompt(`Error handling bookmark:`);
     }
   };
 

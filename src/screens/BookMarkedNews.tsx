@@ -5,6 +5,7 @@ import { getBookmarks } from '../utils/bookmarkNews'; // Utility to fetch bookma
 import { RootStackParamList } from '../types/navigationParams';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { OfflineBanner } from '../components/OfflineBanner/OfflineBanner';
+import { Alert } from 'react-native';
 
 type NewsItem = {
   title: string;
@@ -27,7 +28,7 @@ const BookmarkedNews: React.FC = () => {
       const savedBookmarks = await getBookmarks();
       setBookmarks(savedBookmarks);
     } catch (error) {
-      console.error('Error fetching bookmarked news:', error);
+      Alert.prompt('Error fetching bookmarked news:');
     } finally {
       setLoading(false);
     }

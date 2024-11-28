@@ -8,6 +8,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SOURCES} from '../constants/sources';
@@ -49,7 +50,7 @@ const NewsFeed: React.FC = () => {
       await saveNewsCache(response);
       setNews(response);
     } catch (error) {
-      console.error('Error fetching news:', error);
+      Alert.prompt(`Error saving news`);
     } finally {
       setLoading(false);
     }
@@ -72,7 +73,7 @@ const NewsFeed: React.FC = () => {
           setNews(response);
           setLoading(false);
         } catch (error) {
-          console.error('Error fetching news:', error);
+          Alert.alert('Error fetching news:');
         }
       }
     };
@@ -145,6 +146,41 @@ const NewsFeed: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {!isOffline && loading ? (
+        <ActivityIndicator
+          size="large"
+          color="#FF8C32"
+          style={styles.loadingIndicator}
+        />
+      ) :
+        (<View>
+          <Text style={styles.header}>Select News Source</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.sourcesContainer}>
+            {Object.keys(SOURCES).map(key => {
+              const source = SOURCES[key as keyof typeof SOURCES];
+              return renderSourceItem(key, source);
+            })}
+          </ScrollView>
+          {news?.length > 0 ? (
+            <FlatList
+              data={news}
+              keyExtractor={item => item.url}
+              renderItem={renderNewsItem}
+              contentContainerStyle={styles.newsList}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          ) : (
+            <View style={styles.container}>
+              <Text style={styles.header}>
+                There are no contents to display
+              </Text>
+            </View>
+          )}
+        </View>)}
       {isOffline && (
         <>
           <OfflineBanner />
@@ -166,33 +202,7 @@ const NewsFeed: React.FC = () => {
           )}
         </>
       )}
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color="#FF8C32"
-          style={styles.loadingIndicator}
-        />
-      ) : 
-        !isOffline &&( <View>
-          <Text style={styles.header}>Select News Source</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.sourcesContainer}>
-            {Object.keys(SOURCES).map(key => {
-              const source = SOURCES[key as keyof typeof SOURCES];
-              return renderSourceItem(key, source);
-            })}
-          </ScrollView>
-          <FlatList
-            data={news}
-            keyExtractor={item => item.url}
-            renderItem={renderNewsItem}
-            contentContainerStyle={styles.newsList}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        </View>)}
+      
       
     </View>
   );
